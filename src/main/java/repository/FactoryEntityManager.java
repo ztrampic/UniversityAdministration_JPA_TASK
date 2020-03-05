@@ -12,7 +12,7 @@ public class FactoryEntityManager {
     private EntityManager entityManager;
 
     private FactoryEntityManager() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("zadatak");
+        entityManagerFactory = Persistence.createEntityManagerFactory("UniversityAdministration");
     }
 
     public static FactoryEntityManager getInstance() {

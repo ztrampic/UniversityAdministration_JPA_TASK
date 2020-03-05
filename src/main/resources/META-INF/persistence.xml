@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
 
-    <persistence-unit name="zadatak" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="UniversityAdministration" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>domain.Role</class>
         <class>domain.User</class>
@@ -14,7 +14,7 @@
         <class>domain.StudyProgram</class>
         <class>domain.Subject</class>
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/zadatak_dule_savic"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/university_administration_by_dule_savic"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.password" value=""/>
