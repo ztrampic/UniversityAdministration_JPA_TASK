@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Subject.getAll",query = "SELECT s FROM Subject s")
+})
 public class Subject implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

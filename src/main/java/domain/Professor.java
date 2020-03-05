@@ -11,8 +11,12 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Professor.getAll",query = "SELECT p FROM Professor p")
+})
 public class Professor extends UserDetails implements Serializable {
     @NaturalId
+    @Enumerated(value = EnumType.STRING)
     private Title title;
     @Temporal(TemporalType.DATE)
     private Date workingStarted;

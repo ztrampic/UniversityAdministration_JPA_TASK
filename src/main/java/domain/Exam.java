@@ -4,7 +4,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 @Entity
-public class Exam  implements Serializable {
+@NamedQueries({
+        @NamedQuery(name = "Exam.getAll",query = "SELECT e FROM Exam e")
+})
+public class Exam implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_exam;

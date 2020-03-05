@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "StudyProgram.getAll",query = "SELECT s FROM StudyProgram s")
+})
 public class StudyProgram implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

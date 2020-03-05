@@ -5,6 +5,9 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Faculty.getAll",query = "SELECT f FROM Faculty f")
+})
 public class Faculty implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

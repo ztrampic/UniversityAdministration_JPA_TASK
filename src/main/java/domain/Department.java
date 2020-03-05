@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Department.getAll",query = "SELECT d FROM Department d")
+})
 public class Department implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

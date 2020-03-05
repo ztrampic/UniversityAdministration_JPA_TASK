@@ -9,6 +9,9 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Student.getAll",query = "SELECT s FROM Student s")
+})
 public class Student extends UserDetails implements Serializable{
     @NaturalId
     private String indexNumber;

@@ -6,12 +6,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "User.getAll",query = "SELECT u FROM User u"),
+        @NamedQuery(name = "User.getById", query = "SELECT u FROM User u WHERE u.id_user = :UserId"),
+})
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_user;
     private String userName;
     private String password;
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
     private UserDetails UserDetails;
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "user_role",

@@ -1,3 +1,4 @@
+import controller.Controller;
 import domain.*;
 import enums.RoleName;
 import enums.Title;
@@ -14,20 +15,35 @@ public class JpaMain {
         System.out.println("TEST");
         JpaMain main = new JpaMain();
 //        main.insertFaculty();
-        main.insertNewUser();
+       // main.insertNewUser();
+        //main.getAllUsers();
+        //main.findUserById(2L);
+        main.deleteUser(1L);
+    }
+
+    private void deleteUser(long l) {
+        Controller.getInstance().deleteUser(l);
+    }
+
+    private void findUserById(long id) {
+        Controller.getInstance().findUserById(id);
+    }
+
+    private void getAllUsers() {
+        Controller.getInstance().getAllUsers();
     }
 
     private void insertNewUser() {
         Professor professor = new Professor();
-        professor.setLastName("Trampic");
-        professor.setFirstName("Zarko");
+        professor.setLastName("Peric");
+        professor.setFirstName("Pera");
         professor.setTitle(Title.RESEARCHERS);
         professor.setWorkingStarted(new Date());
         Role role = new Role();
         role.setRoleName(RoleName.PROFESOR);
         User user = new User();
-        user.setPassword("zare");
-        user.setUserName("zare");
+        user.setPassword("Pera");
+        user.setUserName("pera");
         user.addRole(role);
         user.setUserDetails(professor);
         UserService userService = new UserServiceImpl();

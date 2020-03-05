@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Entity
 @Inheritance(
-        strategy = InheritanceType.JOINED
+        strategy = InheritanceType.SINGLE_TABLE
 )
 public class UserDetails implements Serializable {
     @Id

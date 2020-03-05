@@ -1,8 +1,6 @@
 package repository.impl;
 
 import domain.Role;
-import domain.User;
-import enums.RoleName;
 import repository.FactoryEntityManager;
 import repository.Repository;
 
@@ -26,13 +24,17 @@ public class RoleRepository implements Repository<Role> {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void delete(Long id) {
 
     }
 
     @Override
     public List<Role> getAll() {
-        return null;
+        entityManager.getTransaction().begin();
+        List<Role> roles = entityManager.createNamedQuery("Role.getAll").getResultList();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return roles;
     }
 
     @Override
@@ -42,7 +44,7 @@ public class RoleRepository implements Repository<Role> {
 
     @Override
     public Role findByName(Role entity) {
-        List<Role> roles = entityManager.createNativeQuery("select * from role",Role.class).getResultList();
+        List<Role> roles = getAll();
         for (Role role : roles){
             if(entity.getRoleName().toString().equals(role.getRoleName().toString())){
                 return role;

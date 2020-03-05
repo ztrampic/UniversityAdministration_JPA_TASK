@@ -23,7 +23,7 @@ public class FacultyRepository implements Repository<Faculty> {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void delete(Long id) {
 
     }
 

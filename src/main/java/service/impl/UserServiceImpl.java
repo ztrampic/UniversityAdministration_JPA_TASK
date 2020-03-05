@@ -7,6 +7,8 @@ import repository.impl.RoleRepository;
 import repository.impl.UserRepository;
 import service.UserService;
 
+import java.util.List;
+
 public class UserServiceImpl implements UserService {
     private final Repository<User> userRepository;
     private final Repository<Role> roleRepository;
@@ -23,5 +25,20 @@ public class UserServiceImpl implements UserService {
         user.addRole(role);
         User newUser = userRepository.saveOrUpdate(user);
         return newUser;
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userRepository.getAll();
+    }
+
+    @Override
+    public User findById(long id) {
+        return userRepository.getById(id);
+    }
+
+    @Override
+    public void deleteUser(long id) {
+        userRepository.delete(id);
     }
 }
