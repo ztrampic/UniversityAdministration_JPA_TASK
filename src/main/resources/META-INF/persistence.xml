@@ -6,8 +6,15 @@
         <class>domain.Role</class>
         <class>domain.User</class>
         <class>domain.UserDetails</class>
+        <class>domain.Department</class>
+        <class>domain.Exam</class>
+        <class>domain.Faculty</class>
+        <class>domain.Professor</class>
+        <class>domain.Student</class>
+        <class>domain.StudyProgram</class>
+        <class>domain.Subject</class>
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/dule_seavic_zadatak"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/zadatak_dule_savic"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.password" value=""/>
