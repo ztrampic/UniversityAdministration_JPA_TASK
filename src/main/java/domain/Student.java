@@ -4,11 +4,12 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.criterion.Example;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Student extends UserDetails{
+public class Student extends UserDetails implements Serializable{
     @NaturalId
     private String indexNumber;
     @Temporal(TemporalType.DATE)
@@ -49,12 +50,17 @@ public class Student extends UserDetails{
     public void setListOfPassedExams(List<Exam> listOfPassedExams) {
         this.listOfPassedExams = listOfPassedExams;
     }
+
     /**
      * ------Methods for synchronization
      */
     public void addExam(Exam exam){
         exam.setStudent(this);
-        listOfPassedExams.add(exam);
+        if(exam.getPassed() == true){
+            listOfPassedExams.add(exam);
+        }else {
+            this.setListOfPassedExams(listOfPassedExams);
+        }
     }
     public void removeExam(Exam exam){
         listOfPassedExams.add(exam);

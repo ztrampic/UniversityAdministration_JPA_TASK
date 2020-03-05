@@ -2,18 +2,19 @@ package domain;
 
 import org.hibernate.annotations.NaturalId;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
+import java.io.Serializable;
 
-@MappedSuperclass
-public class UserDetails {
+@Entity
+@Inheritance(
+        strategy = InheritanceType.JOINED
+)
+public class UserDetails implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_user_details;
-    private String userName;
-    private String lastName;
+    protected Long id_user_details;
+    protected String firstName;
+    protected String lastName;
 
     public Long getId_user_details() {
         return id_user_details;
@@ -23,12 +24,12 @@ public class UserDetails {
         this.id_user_details = id_user_details;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {

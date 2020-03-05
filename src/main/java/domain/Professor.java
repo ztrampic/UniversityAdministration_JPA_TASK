@@ -4,13 +4,14 @@ import enums.Title;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Professor extends UserDetails{
+public class Professor extends UserDetails implements Serializable {
     @NaturalId
     private Title title;
     @Temporal(TemporalType.DATE)
@@ -19,7 +20,7 @@ public class Professor extends UserDetails{
     private Department department;
     @ManyToMany(mappedBy = "professorSet")
     private Set<Subject> subjectSet = new HashSet<>();
-    @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Exam> listOfExams;
 
     public Title getTitle() {
@@ -61,24 +62,26 @@ public class Professor extends UserDetails{
     public void setListOfExams(List<Exam> listOfExams) {
         this.listOfExams = listOfExams;
     }
+
     /**
-     *
      * -----Methods for synchronization---------
      */
-    public void addSubject(Subject subject){
+    public void addSubject(Subject subject) {
         subjectSet.add(subject);
         subject.getProfessorSet().add(this);
     }
-    public void removeProfessor(Subject subject){
+
+    public void removeProfessor(Subject subject) {
         subjectSet.remove(subject);
         subject.getProfessorSet().remove(this);
     }
 
-    public void addExam(Exam exam){
+    public void addExam(Exam exam) {
         listOfExams.add(exam);
         exam.setProfessor(this);
     }
-    public void removeExam(Exam exam){
+
+    public void removeExam(Exam exam) {
         listOfExams.remove(exam);
         exam.setProfessor(null);
     }

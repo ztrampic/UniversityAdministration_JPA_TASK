@@ -1,16 +1,17 @@
 package domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-public class Faculty {
+public class Faculty implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_faculty;
     private String name;
     private String address;
-    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Department> departmentSet;
 
     public Long getId_faculty() {
@@ -46,14 +47,14 @@ public class Faculty {
     }
 
     /**
-     *
      * -----Methods for synchronization---------
      */
-    public void addDepartment(Department department){
+    public void addDepartment(Department department) {
         departmentSet.add(department);
         department.setFaculty(this);
     }
-    public void removeDepartment(Department department){
+
+    public void removeDepartment(Department department) {
         departmentSet.remove(department);
         department.setFaculty(null);
     }

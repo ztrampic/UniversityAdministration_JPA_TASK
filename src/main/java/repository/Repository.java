@@ -7,4 +7,5 @@ public interface Repository<T>{
     void deleteById(Long id);
     List<T> getAll();
     T getById(Long id);
+    T findByName(T entity);
 }

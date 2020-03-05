@@ -1,5 +1,6 @@
 package repository.impl;
 
+import domain.Faculty;
 import domain.User;
 import repository.FactoryEntityManager;
 import repository.Repository;
@@ -7,20 +8,18 @@ import repository.Repository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-public class UserRepository implements Repository<User> {
+public class FacultyRepository implements Repository<Faculty> {
     private final EntityManager entityManager;
-
-    public UserRepository() {
+    public FacultyRepository() {
         entityManager = FactoryEntityManager.getInstance().getEntityManager();
     }
-
     @Override
-    public User saveOrUpdate(User entity) {
+    public Faculty saveOrUpdate(Faculty entity) {
         entityManager.getTransaction().begin();
-        User newUser = entityManager.merge(entity);
+        Faculty faculty = entityManager.merge(entity);
         entityManager.getTransaction().commit();
         entityManager.close();
-        return newUser;
+        return faculty;
     }
 
     @Override
@@ -29,17 +28,17 @@ public class UserRepository implements Repository<User> {
     }
 
     @Override
-    public List<User> getAll() {
+    public List<Faculty> getAll() {
         return null;
     }
 
     @Override
-    public User getById(Long id) {
+    public Faculty getById(Long id) {
         return null;
     }
 
     @Override
-    public User findByName(User entity) {
+    public Faculty findByName(Faculty entity) {
         return null;
     }
 }
