@@ -30,7 +30,7 @@ public class ServletUserLogin extends HttpServlet {
             request.setAttribute("message",message);
             request.getRequestDispatcher(request.getContextPath() + "/login.jsp").forward(request, response);
         } else if (userDtoResponse.getRoleNames().stream().anyMatch(role -> role.toString().equals("PROFESOR"))) {
-            String context = getServletContext().getContextPath();
+            //String context = getServletContext().getContextPath();
             session.setAttribute("user", userDtoResponse);
             request.getRequestDispatcher(request.getContextPath() + "WEB-INF/professor.jsp").forward(request, response);
         } else if (userDtoResponse.getRoleNames().stream().anyMatch(role -> role.toString().equals("ADMIN"))) {
