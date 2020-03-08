@@ -17,7 +17,7 @@ import java.io.IOException;
 public class ServletUserLogin extends HttpServlet {
     private final ControllerFacade controllerFacade;
 
-    public ServletUserLogin(){
+    public ServletUserLogin() {
         controllerFacade = new ControllerFacade();
     }
 
@@ -27,7 +27,7 @@ public class ServletUserLogin extends HttpServlet {
         HttpSession session = request.getSession();
         if (userDtoResponse == null) {
             String message = "Bad Credentials!!!";
-            request.setAttribute("message",message);
+            request.setAttribute("message", message);
             request.getRequestDispatcher(request.getContextPath() + "/login.jsp").forward(request, response);
         } else if (userDtoResponse.getRoleNames().stream().anyMatch(role -> role.toString().equals("PROFESOR"))) {
             //String context = getServletContext().getContextPath();

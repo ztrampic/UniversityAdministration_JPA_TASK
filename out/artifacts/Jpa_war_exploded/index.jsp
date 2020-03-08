@@ -19,6 +19,6 @@
   </head>
   <body>
   <a href="/login.jsp" class = "button">Login Form</a>
-  <a href="/singUp" class = "button">SingUp Form</a>
+  <a href="/singUp.jsp" class = "button">SingUp Form</a>
   </body>
 </html>

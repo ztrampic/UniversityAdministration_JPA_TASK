@@ -1,6 +1,7 @@
 package controller;
 
 import domain.User;
+import dto.StudentDtoRequest;
 import dto.UserCredentials;
 import dto.UserDtoResponse;
 import service.UserService;
@@ -38,5 +39,10 @@ public class AuthController {
         return userDtoResponse;
     }
 
+    public void registrate(StudentDtoRequest studentDtoRequest) {
+        // --------- in proggresss --------------
+        //User user = userConverter.convertToUser(studentDtoRequest);
+        userService.insertNewUser(user);
+    }
 }
 
