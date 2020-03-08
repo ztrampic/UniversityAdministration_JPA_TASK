@@ -1,13 +1,12 @@
 package domain;
 
-import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Inheritance(
-        strategy = InheritanceType.SINGLE_TABLE
+        strategy = InheritanceType.JOINED
 )
 public class UserDetails implements Serializable {
     @Id
@@ -15,7 +14,6 @@ public class UserDetails implements Serializable {
     protected Long id_user_details;
     protected String firstName;
     protected String lastName;
-
     public Long getId_user_details() {
         return id_user_details;
     }

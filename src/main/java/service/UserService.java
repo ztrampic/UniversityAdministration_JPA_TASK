@@ -1,6 +1,7 @@
 package service;
 
 import domain.User;
+import dto.UserCredentials;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface UserService {
     User findById(long id);
 
     void deleteUser(long l);
+
+    User login(UserCredentials credentials);
 }

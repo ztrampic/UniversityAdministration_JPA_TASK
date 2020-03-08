@@ -13,7 +13,6 @@ import java.util.List;
         @NamedQuery(name = "Student.getAll",query = "SELECT s FROM Student s")
 })
 public class Student extends UserDetails implements Serializable{
-    @NaturalId
     private String indexNumber;
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;

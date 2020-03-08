@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="UniversityAdministration" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>domain.Department</class>
+        <class>domain.Exam</class>
+        <class>domain.Faculty</class>
+        <class>domain.Professor</class>
+        <class>domain.Role</class>
+        <class>domain.Student</class>
+        <class>domain.StudyProgram</class>
+        <class>domain.Subject</class>
+        <class>domain.User</class>
+        <class>domain.UserDetails</class>
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/university_administration_by_dule_savic"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value=""/>
+            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+        </properties>
+    </persistence-unit>
+</persistence>

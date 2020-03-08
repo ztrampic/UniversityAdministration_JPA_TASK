@@ -2,7 +2,9 @@ package service.impl;
 
 import domain.Role;
 import domain.User;
+import dto.UserCredentials;
 import repository.Repository;
+import repository.impl.AuthRepository;
 import repository.impl.RoleRepository;
 import repository.impl.UserRepository;
 import service.UserService;
@@ -12,10 +14,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final Repository<User> userRepository;
     private final Repository<Role> roleRepository;
+    private final AuthRepository authRepository;
 
     public UserServiceImpl() {
         userRepository = new UserRepository();
         roleRepository = new RoleRepository();
+        authRepository = new AuthRepository();
     }
 
     @Override
@@ -40,5 +44,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(long id) {
         userRepository.delete(id);
+    }
+
+    @Override
+    public User login(UserCredentials credentials) {
+        User user = authRepository.login(credentials);
+        return user;
     }
 }

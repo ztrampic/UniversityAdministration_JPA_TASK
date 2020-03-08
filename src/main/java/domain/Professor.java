@@ -5,17 +5,13 @@ import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Professor.getAll",query = "SELECT p FROM Professor p")
 })
 public class Professor extends UserDetails implements Serializable {
-    @NaturalId
     @Enumerated(value = EnumType.STRING)
     private Title title;
     @Temporal(TemporalType.DATE)
@@ -67,6 +63,23 @@ public class Professor extends UserDetails implements Serializable {
         this.listOfExams = listOfExams;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Professor)) return false;
+        Professor professor = (Professor) o;
+        return getTitle() == professor.getTitle() &&
+                Objects.equals(getWorkingStarted(), professor.getWorkingStarted()) &&
+                Objects.equals(getDepartment(), professor.getDepartment()) &&
+                Objects.equals(getSubjectSet(), professor.getSubjectSet()) &&
+                Objects.equals(getListOfExams(), professor.getListOfExams());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTitle(), getWorkingStarted(), getDepartment(), getSubjectSet(), getListOfExams());
+    }
+
     /**
      * -----Methods for synchronization---------
      */
@@ -89,4 +102,5 @@ public class Professor extends UserDetails implements Serializable {
         listOfExams.remove(exam);
         exam.setProfessor(null);
     }
+
 }

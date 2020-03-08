@@ -9,22 +9,26 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name = "User.getAll",query = "SELECT u FROM User u"),
         @NamedQuery(name = "User.getById", query = "SELECT u FROM User u WHERE u.id_user = :UserId"),
+        @NamedQuery(name = "User.checkCredentails",query = "SELECT u from User u where u.password = :Password AND u.userName= :Username")
 })
 public class User implements Serializable {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_user;
     private String userName;
     private String password;
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
-    private UserDetails UserDetails;
+    private UserDetails userDetails;
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_role")
     )
     private Set<Role> roleSet = new HashSet<>();
+
+    public User() {
+    }
 
     public Long getId_user() {
         return id_user;
@@ -50,12 +54,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public domain.UserDetails getUserDetails() {
-        return UserDetails;
+    public UserDetails getUserDetails() {
+        return userDetails;
     }
 
-    public void setUserDetails(domain.UserDetails userDetails) {
-        UserDetails = userDetails;
+    public void setUserDetails(UserDetails userDetails) {
+        this.userDetails = userDetails;
     }
 
     public Set<Role> getRoleSet() {

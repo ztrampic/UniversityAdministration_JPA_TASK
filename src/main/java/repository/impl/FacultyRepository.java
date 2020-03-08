@@ -1,20 +1,19 @@
 package repository.impl;
 
 import domain.Faculty;
-import domain.User;
-import repository.FactoryEntityManager;
+import repository.MyProvider;
 import repository.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.List;
 
 public class FacultyRepository implements Repository<Faculty> {
-    private final EntityManager entityManager;
-    public FacultyRepository() {
-        entityManager = FactoryEntityManager.getInstance().getEntityManager();
-    }
+
     @Override
     public Faculty saveOrUpdate(Faculty entity) {
+        EntityManager entityManager = MyProvider.getInstance().getManager();
         entityManager.getTransaction().begin();
         Faculty faculty = entityManager.merge(entity);
         entityManager.getTransaction().commit();
