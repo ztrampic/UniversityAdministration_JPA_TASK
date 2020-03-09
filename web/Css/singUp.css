@@ -1,0 +1,56 @@
+.wrapF{
+    flex-flow: column;
+}
+.wrapD{
+    display: flex;
+    width: 40%;
+}
+.pass{
+    color: red;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 60vh;
+}
+.roundedButton{
+    background-color:orange;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-family: cursive;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 65%;
+}
+.label{
+    font-size: x-large;
+    font-family: cursive;
+    color: orange;
+}
+.inputRound{
+    border-radius: 25px;
+    border: 2px solid orange;
+    padding: 20px;
+    width: 200px;
+    height: 15px;
+}
+.wrapperLabelInput{
+    display: grid;
+    margin-right: 1rem;
+}
+.wrapperLabelInputx2{
+    display: flex;
+    margin-top: 1rem;
+}
+.dateWrapper{
+    margin-top: 1rem;
+    display: inline-grid;
+}

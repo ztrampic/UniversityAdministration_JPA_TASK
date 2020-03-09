@@ -41,4 +41,16 @@ public class ServletUserLogin extends HttpServlet {
             request.getRequestDispatcher(request.getContextPath() + "WEB-INF/student.jsp").forward(request, response);
         }
     }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getSession().getAttribute("user") == null){
+            request.getRequestDispatcher(request.getContextPath() + "/login.jsp").forward(request, response);
+        }
+        request.getSession().removeAttribute("user");
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+        response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+        response.setDateHeader("Expires", 0);
+        request.getRequestDispatcher(request.getContextPath() + "/login.jsp").forward(request, response);
+    }
 }

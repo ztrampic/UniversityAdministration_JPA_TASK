@@ -40,9 +40,8 @@ public class AuthController {
     }
 
     public void registrate(StudentDtoRequest studentDtoRequest) {
-        // --------- in proggresss --------------
-        //User user = userConverter.convertToUser(studentDtoRequest);
-        userService.insertNewUser(user);
+        User user = userConverter.convertToUser(studentDtoRequest);
+        User newUser = userService.insertNewUser(user);
     }
 }
 
