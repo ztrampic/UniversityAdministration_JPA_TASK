@@ -1,7 +1,6 @@
 package servlets;
 
 import controller.ControllerFacade;
-import domain.User;
 import dto.UserCredentials;
 import dto.UserDtoResponse;
 

@@ -5,8 +5,6 @@ import repository.MyProvider;
 import repository.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.List;
 
 public class FacultyRepository implements Repository<Faculty> {

@@ -5,4 +5,6 @@ import dto.FacultyDto;
 
 public interface FacultyConverter {
     FacultyDto convertToDto(Faculty faculty);
+
+    Faculty convertToEntity(FacultyDto facultyDto);
 }
