@@ -1,6 +1,7 @@
 package repository.impl;
 
 import domain.Faculty;
+import domain.User;
 import repository.MyProvider;
 import repository.Repository;
 
@@ -26,7 +27,12 @@ public class FacultyRepository implements Repository<Faculty> {
 
     @Override
     public List<Faculty> getAll() {
-        return null;
+        EntityManager entityManager = MyProvider.getInstance().getManager();
+        entityManager.getTransaction().begin();
+        List<Faculty> faculties = entityManager.createNamedQuery("Faculty.getAll").getResultList();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return faculties;
     }
 
     @Override

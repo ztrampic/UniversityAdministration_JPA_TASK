@@ -1,6 +1,8 @@
 package servlets;
 
 import controller.ControllerFacade;
+import domain.Faculty;
+import dto.FacultyDto;
 import dto.UserCredentials;
 import dto.UserDtoResponse;
 
@@ -33,12 +35,17 @@ public class ServletUserLogin extends HttpServlet {
             session.setAttribute("user", userDtoResponse);
             request.getRequestDispatcher(request.getContextPath() + "WEB-INF/professor.jsp").forward(request, response);
         } else if (userDtoResponse.getRoleNames().stream().anyMatch(role -> role.toString().equals("ADMIN"))) {
-            session.setAttribute("user", userDtoResponse);
-            request.getRequestDispatcher(request.getContextPath() + "WEB-INF/user.jsp").forward(request, response);
+            prepareAdminPage(request,response);
         } else if (userDtoResponse.getRoleNames().stream().anyMatch(role -> role.toString().equals("STUDENT"))) {
             session.setAttribute("user", userDtoResponse);
             request.getRequestDispatcher(request.getContextPath() + "WEB-INF/student.jsp").forward(request, response);
         }
+    }
+
+    private void prepareAdminPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        FacultyDto facultyDto = controllerFacade.getFacultyInfo();
+        request.setAttribute("faculty", facultyDto);
+        request.getRequestDispatcher(request.getContextPath() + "WEB-INF/admin.jsp").forward(request, response);
     }
 
     @Override

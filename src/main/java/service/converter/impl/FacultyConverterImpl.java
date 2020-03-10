@@ -30,6 +30,11 @@ public class FacultyConverterImpl implements FacultyConverter {
         Faculty faculty = new Faculty();
         faculty.setName(facultyDto.getName());
         faculty.setAddress(facultyDto.getAddress());
+        if(facultyDto.getId() == null){
+            faculty.setId_faculty(null);
+        }else {
+            faculty.setId_faculty(facultyDto.getId());
+        }
         return faculty;
     }
 }

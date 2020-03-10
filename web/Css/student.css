@@ -1,0 +1,16 @@
+.userInfo{
+    display: grid;
+}
+
+.span{
+    color: red;
+    width: 100px;
+}
+
+.label{
+    display: flex;
+}
+
+.tableExams{
+
+}

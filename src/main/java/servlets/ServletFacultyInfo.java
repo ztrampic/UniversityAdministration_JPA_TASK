@@ -20,15 +20,33 @@ public class ServletFacultyInfo extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        FacultyDto facultyDto = (FacultyDto) request.getAttribute("facultyDto");
+        FacultyDto facultyDto = createDto(request);
         if (facultyDto != null) {
             controllerFacade.newFaculty(facultyDto);
             String message = "Success!!!";
             request.setAttribute("message", message);
-            request.getRequestDispatcher(request.getContextPath() + "/admin.jsp").forward(request, response);
+            request.getRequestDispatcher(request.getContextPath() + "WEB-INF/admin.jsp").forward(request, response);
         } else {
            somethingWentWrong(request,response);
         }
+    }
+
+    private FacultyDto createDto(HttpServletRequest request) {
+        if(request.getParameter("name").equals("") || request.getParameter("address").equals("")){
+            return null;
+        }else {
+            FacultyDto facultyDto = new FacultyDto();
+            if(request.getParameter("hiddenId").equals("")){
+                facultyDto.setId(null);
+            }else{
+                Long id = Long.parseLong(request.getParameter("hiddenId"));
+                facultyDto.setId(id);
+            }
+            facultyDto.setName(request.getParameter("name"));
+            facultyDto.setAddress( request.getParameter("address"));
+            return facultyDto;
+        }
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

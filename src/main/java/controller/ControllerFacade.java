@@ -1,7 +1,4 @@
 package controller;
-
-import domain.Faculty;
-import domain.User;
 import dto.FacultyDto;
 import dto.StudentDtoRequest;
 import dto.UserCredentials;

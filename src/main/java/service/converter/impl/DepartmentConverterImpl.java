@@ -9,11 +9,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DepartmentConverterImpl implements DepartmentConverter {
-    private final FacultyConverter facultyConverter;
-
-    public DepartmentConverterImpl() {
-        facultyConverter = new FacultyConverterImpl();
-    }
+//    private final FacultyConverter facultyConverter;
+//
+//    public DepartmentConverterImpl() {
+//        facultyConverter = new FacultyConverterImpl();
+//    }
 
     @Override
     public DepartmentDto convertToDto(Department department) {
@@ -21,7 +21,7 @@ public class DepartmentConverterImpl implements DepartmentConverter {
         if(department == null) return null;
         departmentDto.setId(department.getId_department());
         departmentDto.setName(department.getName());
-        departmentDto.setFacultyDto(facultyConverter.convertToDto(department.getFaculty()));
+//        departmentDto.setFacultyDto(facultyConverter.convertToDto(department.getFaculty()));
         return departmentDto;
     }
 

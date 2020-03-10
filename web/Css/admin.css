@@ -1,0 +1,16 @@
+.parent {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 15px;
+    grid-row-gap: 29px;
+}
+.div1 {
+    grid-area: 1 / 1 / 2 / 2;
+    background-color: yellow;
+}
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    max-width: 50%;
+}

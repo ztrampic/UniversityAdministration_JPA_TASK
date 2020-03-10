@@ -14,7 +14,7 @@ public class JpaMain {
         System.out.println("TEST");
         JpaMain main = new JpaMain();
 //        main.insertFaculty();
-           main.insertNewUser();
+           //main.insertNewUser();
         //main.getAllUsers();
         //main.findUserById(2L);
         //main.deleteUser(1L);
