@@ -8,7 +8,8 @@ import java.util.HashSet;
 import java.util.Set;
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Department.getAll",query = "SELECT d FROM Department d")
+        @NamedQuery(name = "Department.getAll",query = "SELECT d FROM Department d"),
+        @NamedQuery(name = "Department.findById",query = "SELECT d FROM Department d WHERE d.id_department = :id "),
 })
 public class Department implements Serializable{
     @Id

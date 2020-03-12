@@ -21,7 +21,7 @@ public class FacultyRepository implements Repository<Faculty> {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Faculty entity) {
 
     }
 

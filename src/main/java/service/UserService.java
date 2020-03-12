@@ -12,7 +12,7 @@ public interface UserService {
 
     User findById(long id);
 
-    void deleteUser(long l);
+    void deleteUser(User user);
 
     User login(UserCredentials credentials);
 }

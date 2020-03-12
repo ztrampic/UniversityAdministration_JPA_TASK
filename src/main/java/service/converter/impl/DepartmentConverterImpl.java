@@ -1,10 +1,12 @@
 package service.converter.impl;
 
 import domain.Department;
+import domain.Faculty;
 import dto.DepartmentDto;
 import service.converter.DepartmentConverter;
 import service.converter.FacultyConverter;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,5 +37,24 @@ public class DepartmentConverterImpl implements DepartmentConverter {
             }
         }).collect(Collectors.toSet());
         return departmentDtos;
+    }
+
+    @Override
+    public List<DepartmentDto> convertToDtoList(List<Department> departments) {
+        List<DepartmentDto> departmentDtos = departments.stream().map(department -> {
+            try{
+                return convertToDto(department);
+            }catch (Exception e){
+                return null;
+            }
+        }).collect(Collectors.toList());
+        return departmentDtos;
+    }
+
+    @Override
+    public Department convertToEntity(DepartmentDto departmentDto) {
+        Department department = new Department();
+        department.setName(departmentDto.getName());
+        return department;
     }
 }

@@ -1,62 +1,65 @@
 package servlets;
 
 import controller.ControllerFacade;
-import domain.Faculty;
+import dto.DepartmentDto;
 import dto.FacultyDto;
 import dto.UserCredentials;
 import dto.UserDtoResponse;
-
+import enums.Messages;
+import enums.RoleName;
+import view.ViewConstants;
+import view.ViewResolver;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "ServletUserLogin", urlPatterns = "/login")
 public class ServletUserLogin extends HttpServlet {
-    private final ControllerFacade controllerFacade;
+    private final ViewResolver viewResolver;
 
     public ServletUserLogin() {
-        controllerFacade = new ControllerFacade();
+        viewResolver = new ViewResolver();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserCredentials credentials = new UserCredentials(request.getParameter("username"), request.getParameter("password"));
-        UserDtoResponse userDtoResponse = controllerFacade.authLogin(credentials);
-        HttpSession session = request.getSession();
+        UserDtoResponse userDtoResponse = ControllerFacade.getInstance().getAuthController().login(credentials);
         if (userDtoResponse == null) {
-            String message = "Bad Credentials!!!";
-            request.setAttribute("message", message);
-            request.getRequestDispatcher(request.getContextPath() + "/login.jsp").forward(request, response);
-        } else if (userDtoResponse.getRoleNames().stream().anyMatch(role -> role.toString().equals("PROFESOR"))) {
-            //String context = getServletContext().getContextPath();
-            session.setAttribute("user", userDtoResponse);
-            request.getRequestDispatcher(request.getContextPath() + "WEB-INF/professor.jsp").forward(request, response);
-        } else if (userDtoResponse.getRoleNames().stream().anyMatch(role -> role.toString().equals("ADMIN"))) {
-            prepareAdminPage(request,response);
-        } else if (userDtoResponse.getRoleNames().stream().anyMatch(role -> role.toString().equals("STUDENT"))) {
-            session.setAttribute("user", userDtoResponse);
-            request.getRequestDispatcher(request.getContextPath() + "WEB-INF/student.jsp").forward(request, response);
+            request.setAttribute("message", Messages.BAD_CREDENTIALS.toString());
+            request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.LOGIN)).forward(request, response);
+        } else if (userDtoResponse.getRoleNames().stream().anyMatch(role -> role.toString().equals(RoleName.PROFESOR.toString()))) {
+            request.getSession().setAttribute("user", userDtoResponse);
+            request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.PROFESSOR)).forward(request, response);
+        } else if (userDtoResponse.getRoleNames().stream().anyMatch(role -> role.toString().equals(RoleName.ADMIN.toString()))) {
+            request.getSession().setAttribute("user", userDtoResponse);
+            prepareAdminPage(request, response);
+        } else if (userDtoResponse.getRoleNames().stream().anyMatch(role -> role.toString().equals(RoleName.STUDENT.toString()))) {
+            request.getSession().setAttribute("user", userDtoResponse);
+            request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.STUDENT)).forward(request, response);
         }
     }
 
     private void prepareAdminPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        FacultyDto facultyDto = controllerFacade.getFacultyInfo();
-        request.setAttribute("faculty", facultyDto);
-        request.getRequestDispatcher(request.getContextPath() + "WEB-INF/admin.jsp").forward(request, response);
+        FacultyDto facultyDto = ControllerFacade.getInstance().getAdminController().getFaculty();
+        List<DepartmentDto> departmentDtos = ControllerFacade.getInstance().getAdminController().getDepartmens();
+        request.getSession().setAttribute("departments", departmentDtos);
+        request.getSession().setAttribute("faculty", facultyDto);
+        request.getRequestDispatcher(request.getContextPath() +  viewResolver.getPage(ViewConstants.ADMIN)).forward(request, response);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession().getAttribute("user") == null){
-            request.getRequestDispatcher(request.getContextPath() + "/login.jsp").forward(request, response);
+        if (request.getSession().getAttribute("user") == null) {
+            request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.LOGIN)).forward(request, response);
         }
         request.getSession().removeAttribute("user");
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
-        response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
         response.setDateHeader("Expires", 0);
-        request.getRequestDispatcher(request.getContextPath() + "/login.jsp").forward(request, response);
+        request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.LOGIN)).forward(request, response);
     }
 }

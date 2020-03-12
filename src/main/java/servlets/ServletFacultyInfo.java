@@ -3,6 +3,9 @@ package servlets;
 import controller.ControllerFacade;
 import domain.Faculty;
 import dto.FacultyDto;
+import enums.Messages;
+import view.ViewConstants;
+import view.ViewResolver;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,19 +16,18 @@ import java.io.IOException;
 
 @WebServlet(name = "ServletFacultyInfo" ,urlPatterns = "/faculty")
 public class ServletFacultyInfo extends HttpServlet {
-    private final ControllerFacade controllerFacade;
+    private final ViewResolver viewResolver;
 
     public ServletFacultyInfo() {
-        controllerFacade = new ControllerFacade();
+        viewResolver = new ViewResolver();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         FacultyDto facultyDto = createDto(request);
         if (facultyDto != null) {
-            controllerFacade.newFaculty(facultyDto);
-            String message = "Success!!!";
-            request.setAttribute("message", message);
-            request.getRequestDispatcher(request.getContextPath() + "WEB-INF/admin.jsp").forward(request, response);
+            ControllerFacade.getInstance().getAdminController().insertNewFaculty(facultyDto);
+            request.setAttribute("message", Messages.SUCCESS_FACULTY_INSERT.toString());
+            request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.ADMIN)).forward(request, response);
         } else {
            somethingWentWrong(request,response);
         }
@@ -50,18 +52,17 @@ public class ServletFacultyInfo extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        FacultyDto facultyDto = controllerFacade.getFacultyInfo();
+        FacultyDto facultyDto = ControllerFacade.getInstance().getAdminController().getFaculty();
         if (facultyDto != null) {
             request.setAttribute("faculty", facultyDto);
-            request.getRequestDispatcher(request.getContextPath() + "/admin.jsp").forward(request, response);
+            request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.ADMIN)).forward(request, response);
         }else {
             somethingWentWrong(request,response);
         }
     }
 
     private void somethingWentWrong(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String message = "Something went wrong!!!";
-        request.setAttribute("message", message);
-        request.getRequestDispatcher(request.getContextPath() + "/admin.jsp").forward(request, response);
+        request.setAttribute("message", Messages.SOMETHING_WRONG.toString());
+        request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.ADMIN)).forward(request, response);
     }
 }

@@ -3,6 +3,9 @@ package servlets;
 import controller.ControllerFacade;
 import dto.StudentDtoRequest;
 import dto.UserDetailsDto;
+import enums.Messages;
+import view.ViewConstants;
+import view.ViewResolver;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,23 +16,21 @@ import java.io.IOException;
 
 @WebServlet(name = "ServletSingUp", urlPatterns = "/singUp")
 public class ServletSingUp extends HttpServlet {
-    private final ControllerFacade controllerFacade;
+    private final ViewResolver viewResolver;
 
     public ServletSingUp() {
-        controllerFacade = new ControllerFacade();
+        viewResolver = new ViewResolver();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(request.getParameter("password").equals(request.getParameter("confirmPassword"))){
             StudentDtoRequest studentDtoRequest = createStudentDto(request);
-            controllerFacade.authRegistrate(studentDtoRequest);
-            String message  = "Success you can now login.";
-            request.setAttribute("message", message);
-            request.getRequestDispatcher(request.getContextPath() + "/login.jsp").forward(request, response);
+            ControllerFacade.getInstance().getAuthController().registrate(studentDtoRequest);
+            request.setAttribute("message", Messages.SING_UP_SUCCESS.toString());
+            request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.LOGIN)).forward(request, response);
         }else {
-            String message  = "Passwords don`t match.";
-            request.setAttribute("message", message);
-            request.getRequestDispatcher(request.getContextPath() + "/singUp.jsp").forward(request, response);
+            request.setAttribute("message", Messages.PASSWORDS_NOT_MATCH.toString());
+            request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.SING_UP)).forward(request, response);
         }
     }
 

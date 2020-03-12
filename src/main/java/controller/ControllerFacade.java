@@ -1,32 +1,41 @@
 package controller;
-import dto.FacultyDto;
-import dto.StudentDtoRequest;
-import dto.UserCredentials;
-import dto.UserDtoResponse;
+import dto.*;
+import repository.MyProvider;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import java.util.List;
 
 public class ControllerFacade{
-    private final AuthController authController;
-    private final AdminController adminController;
-    public ControllerFacade() {
+
+    private static volatile ControllerFacade instance;
+    private static Object mutex = new Object();
+//    ----controllers-----
+    private AuthController authController;
+    private AdminController adminController;
+    private ControllerFacade() {
+    }
+    public static ControllerFacade getInstance() {
+        ControllerFacade facade = instance;
+        if (facade == null) {
+            synchronized (mutex) {
+                facade = instance;
+                if (facade == null) {
+                    instance = new ControllerFacade();
+                }
+            }
+        }
+        return instance;
+    }
+
+    public AuthController getAuthController(){
         authController = new AuthController();
+        return authController;
+    }
+
+    public AdminController getAdminController(){
         adminController = new AdminController();
+        return adminController;
     }
 
-    public UserDtoResponse authLogin(UserCredentials credentials) {
-        UserDtoResponse userDtoResponse = authController.login(credentials);
-        return userDtoResponse;
-    }
-
-    public void authRegistrate(StudentDtoRequest studentDtoRequest) {
-        authController.registrate(studentDtoRequest);
-    }
-
-    public void newFaculty(FacultyDto facultyDto) {
-        adminController.insertNewFaculty(facultyDto);
-    }
-
-    public FacultyDto getFacultyInfo() {
-        FacultyDto facultyDto = adminController.getFaculty();
-        return facultyDto;
-    }
 }

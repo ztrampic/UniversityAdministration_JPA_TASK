@@ -1,59 +1,55 @@
 package repository.impl;
 
-import domain.User;
+import domain.Department;
 import repository.MyProvider;
 import repository.Repository;
+
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.List;
 
-public class UserRepository implements Repository<User> {
-
-
+public class DepartmentRepository implements Repository<Department> {
     @Override
-    public User saveOrUpdate(User entity) {
+    public Department saveOrUpdate(Department entity) {
         EntityManager entityManager = MyProvider.getInstance().getManager();
         entityManager.getTransaction().begin();
-        User newUser = entityManager.merge(entity);
+        Department department = entityManager.merge(entity);
         entityManager.getTransaction().commit();
         entityManager.close();
-        return newUser;
+        return department;
     }
 
     @Override
-    public void delete(User entity) {
+    public void delete(Department entity) {
         EntityManager entityManager = MyProvider.getInstance().getManager();
         entityManager.getTransaction().begin();
-        entityManager.remove(entity);
+        Department department = entityManager.find(Department.class,entity.getId_department());
+        entityManager.remove(department);
         entityManager.getTransaction().commit();
         entityManager.close();
     }
 
-
     @Override
-    public List<User> getAll() {
+    public List<Department> getAll() {
         EntityManager entityManager = MyProvider.getInstance().getManager();
         entityManager.getTransaction().begin();
-        List<User> users = entityManager.createNamedQuery("User.getAll").getResultList();
+        List<Department> departments = entityManager.createNamedQuery("Department.getAll").getResultList();
         entityManager.getTransaction().commit();
         entityManager.close();
-        return users;
+        return departments;
     }
 
     @Override
-    public User getById(Long id) {
+    public Department getById(Long id) {
         EntityManager entityManager = MyProvider.getInstance().getManager();
         entityManager.getTransaction().begin();
-        User user = entityManager.createNamedQuery("User.getById", User.class).setParameter("UserId", id).getSingleResult();
+        Department department = entityManager.createNamedQuery("Department.findById", Department.class).setParameter("id", id).getSingleResult();
         entityManager.getTransaction().commit();
         entityManager.close();
-        return user;
-
+        return department;
     }
 
     @Override
-    public User findByName(User entity) {
+    public Department findByName(Department entity) {
         return null;
     }
 }

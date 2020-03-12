@@ -2,6 +2,7 @@ package domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,7 +16,7 @@ public class Faculty implements Serializable {
     private String name;
     private String address;
     @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Department> departmentSet;
+    private Set<Department> departmentSet = new HashSet<>();
 
     public Long getId_faculty() {
         return id_faculty;

@@ -21,7 +21,7 @@ public class RoleRepository implements Repository<Role> {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Role entity) {
 
     }
 

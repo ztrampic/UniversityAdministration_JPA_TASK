@@ -22,7 +22,7 @@ public class FacultyServiceImpl implements FacultyService {
     @Override
     public Faculty getFaculty() {
         List<Faculty> all = facultyRepository.getAll();
-        if(all == null) return new Faculty();
+        if(all.size() == 0) return new Faculty();
         Faculty faculty = all.stream().findFirst().get();
         if(faculty == null) return null;
         return faculty;

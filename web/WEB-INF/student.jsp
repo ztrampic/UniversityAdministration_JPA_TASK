@@ -11,12 +11,13 @@
     <link rel="stylesheet" type="text/css" href="../Css/student.css">
 </head>
 <body>
+<jsp:include page="./checkUser.jsp" />
 <%
     UserDtoResponse user = (UserDtoResponse) session.getAttribute("user");
-    Set<ExamDto> examDtos = user.getUserDetailsDto().getExamDtos();
-    if(examDtos == null){
-        examDtos = new HashSet<>();
-    }
+//     Set<ExamDto> examDtos = user.getUserDetailsDto().getExamDtos();
+//     if(examDtos == null){
+//         examDtos = new HashSet<>();
+//     }
 %>
 <div class="userInfo">
     <label class="label"><span class="span">Username:</span> <%=user.getUserName()%>

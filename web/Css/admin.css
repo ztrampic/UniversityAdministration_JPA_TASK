@@ -1,16 +1,40 @@
 .parent {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    grid-column-gap: 15px;
-    grid-row-gap: 29px;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: repeat(2, 1fr);
+	grid-column-gap: 15px;
+	grid-row-gap: 29px;
 }
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	max-width: 20%;
+	margin-bottom: 1rem;
+}
+
 .div1 {
-    grid-area: 1 / 1 / 2 / 2;
-    background-color: yellow;
+	grid-area: 1/1/2/2;
 }
-.wrapper{
-    display: flex;
-    flex-direction: column;
-    max-width: 50%;
+
+.div2 {
+	grid-area: 1/2/2/3;
+}
+
+.div3 {
+	grid-area: 2/1/3/2;
+	background-color: aqua;
+}
+
+.div4 {
+	grid-area: 2/2/3/3;
+}
+
+.buttonDelete {
+	color: white;
+	background-color: red;
+}
+.spanName{
+	margin-left: 1rem;
+	color: red;
 }

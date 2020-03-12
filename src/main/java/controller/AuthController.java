@@ -28,8 +28,8 @@ public class AuthController {
         User user = userService.findById(id);
     }
 
-    public void deleteUser(long id) {
-        userService.deleteUser(id);
+    public void deleteUser(User user) {
+        userService.deleteUser(user);
     }
 
     public UserDtoResponse login(UserCredentials credentials) {
