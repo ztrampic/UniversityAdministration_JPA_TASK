@@ -10,6 +10,7 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name = "Department.getAll",query = "SELECT d FROM Department d"),
         @NamedQuery(name = "Department.findById",query = "SELECT d FROM Department d WHERE d.id_department = :id "),
+        @NamedQuery(name = "Department.findByName",query = "SELECT d FROM Department d WHERE d.name = :name"),
 })
 public class Department implements Serializable{
     @Id

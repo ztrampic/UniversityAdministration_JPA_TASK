@@ -1,6 +1,6 @@
 package servlets;
 
-import controller.ControllerFacade;
+import controller.facade.ControllerFacade;
 import domain.Faculty;
 import dto.DepartmentDto;
 import dto.FacultyDto;
@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @WebServlet(name = "ServletNewDepartment", urlPatterns = "/departments")
 public class ServletNewDepartment extends HttpServlet {
@@ -31,16 +32,17 @@ public class ServletNewDepartment extends HttpServlet {
             somethingWentWrong(httpServletRequest,httpServletResponse);
         }else{
             ControllerFacade.getInstance().getAdminController().deleteDepartment(Long.parseLong(idDepartment));
-            List<DepartmentDto> list = (List<DepartmentDto>) httpServletRequest.getSession().getAttribute("departments");
-            for (DepartmentDto departmentDto:list) {
+            FacultyDto facultyDto = (FacultyDto) httpServletRequest.getSession().getAttribute("faculty");
+            Set<DepartmentDto> departmentDtoSet = facultyDto.getDepartmentDtoSet();
+            for (DepartmentDto departmentDto:departmentDtoSet) {
                 if(departmentDto.getId() == Long.parseLong(idDepartment)){
-                    list.remove(departmentDto);
+                    departmentDtoSet.remove(departmentDto);
                     break;
                 }
             }
-            httpServletRequest.getSession().setAttribute("departments", list);
+            httpServletRequest.getSession().setAttribute("faculty", facultyDto);
+            httpServletRequest.getSession().setAttribute("message",Messages.SUCCESS_REMOVE_DEPARTMENT.getMessage());
             httpServletRequest.getRequestDispatcher(httpServletRequest.getContextPath() + viewResolver.getPage(ViewConstants.ADMIN)).forward(httpServletRequest, httpServletResponse);
-
         }
 
     }
@@ -50,11 +52,15 @@ public class ServletNewDepartment extends HttpServlet {
         if(departmentDto == null){
            somethingWentWrong(request,response);
         }else {
-            DepartmentDto newDepartment = ControllerFacade.getInstance().getAdminController().newDepartment(departmentDto);
-            List<DepartmentDto> list = (List<DepartmentDto>) request.getSession().getAttribute("departments");
-            list.add(newDepartment);
-            request.getSession().setAttribute("departments", list);
-            request.setAttribute("message", Messages.SUCCESS_ADD_DEPARTMENT.toString());
+            try {
+                DepartmentDto newDepartment = ControllerFacade.getInstance().getAdminController().newDepartment(departmentDto);
+                FacultyDto facultyDto= (FacultyDto) request.getSession().getAttribute("faculty");
+                facultyDto.getDepartmentDtoSet().add(newDepartment);
+                request.getSession().setAttribute("faculty", facultyDto);
+                request.setAttribute("message", Messages.SUCCESS_ADD_DEPARTMENT.getMessage());
+            }catch (Exception e){
+                request.setAttribute("message", e.getMessage());
+            }
             request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.ADMIN)).forward(request, response);
         }
 
@@ -68,13 +74,14 @@ public class ServletNewDepartment extends HttpServlet {
         }else {
             facultyDto.setId(Long.parseLong(request.getParameter("hiddenIdFaculty")));
         }
+        if(request.getParameter("name").equals("")) return null;
         departmentDto.setName(request.getParameter("name"));
         departmentDto.setFacultyDto(facultyDto);
         return departmentDto;
     }
 
     private void somethingWentWrong(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        httpServletRequest.setAttribute("message",Messages.SOMETHING_WRONG.toString());
+        httpServletRequest.setAttribute("message",Messages.SOMETHING_WRONG.getMessage());
         httpServletRequest.getRequestDispatcher(httpServletRequest.getContextPath() + viewResolver.getPage(ViewConstants.ADMIN)).forward(httpServletRequest, httpServletResponse);
     }
 }

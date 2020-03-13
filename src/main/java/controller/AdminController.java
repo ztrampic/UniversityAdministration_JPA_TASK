@@ -30,9 +30,11 @@ public class AdminController {
         departmentConverter = new DepartmentConverterImpl();
     }
 
-    public void insertNewFaculty(FacultyDto facultyDto) {
+    public FacultyDto insertNewFaculty(FacultyDto facultyDto) {
         Faculty faculty = facultyConverter.convertToEntity(facultyDto);
         Faculty newFaculty = facultyService.saveOrUpdateFaculty(faculty);
+        FacultyDto newDto = facultyConverter.convertToDto(newFaculty);
+        return newDto;
     }
 
     public FacultyDto getFaculty() {
@@ -48,9 +50,10 @@ public class AdminController {
         return departmentDtos;
     }
 
-    public DepartmentDto newDepartment(DepartmentDto departmentDto) {
+    public DepartmentDto newDepartment(DepartmentDto departmentDto) throws Exception {
         Faculty faculty = facultyService.getFaculty();
         Department department = departmentConverter.convertToEntity(departmentDto);
+        department.setFaculty(faculty);
         Department newDepartment = departmentService.saveOrUpdate(department);
         faculty.addDepartment(newDepartment);
         facultyService.saveOrUpdateFaculty(faculty);
@@ -61,7 +64,6 @@ public class AdminController {
     public void deleteDepartment(long id) {
         Department foundDepartment = departmentService.findById(id);
         if(foundDepartment != null){
-            foundDepartment.setFaculty(null);
             departmentService.delete(foundDepartment);
         }
     }

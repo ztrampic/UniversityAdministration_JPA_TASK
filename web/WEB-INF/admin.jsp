@@ -1,6 +1,7 @@
 <%@ page import="dto.FacultyDto" %>
 <%@ page import="java.util.List" %>
 <%@ page import="dto.DepartmentDto" %>
+<%@ page import="java.util.Set" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -17,7 +18,7 @@
 </form>
 <%
     FacultyDto facultyDto = (FacultyDto) session.getAttribute("faculty");
-    List<DepartmentDto> list = (List<DepartmentDto>) session.getAttribute("departments");
+    Set<DepartmentDto> departmentDtos = facultyDto.getDepartmentDtoSet();
 %>
 <div class="container">
     <h2>Dynamic Tabs</h2>
@@ -59,7 +60,7 @@
                             <th scope="col">Action</th>
                         </tr>
                         <%
-                            for (DepartmentDto departmentDto : list) {
+                            for (DepartmentDto departmentDto : departmentDtos) {
                         %>
                         <tr>
                             <td><%=departmentDto.getId()%>
@@ -94,19 +95,21 @@
         <div id="menu4" class="tab-pane fade">
             <div>
                 <h1>Faculty Info</h1>
-                <label>Faculty name:<span class="spanName"><%=facultyDto.getName()%></span></label>
-                <label>Faculty address:<span class="spanName"><%=facultyDto.getAddress()%></span></label>
+                <div class="wrapper">
+                    <label>Faculty name:<span class="spanName"><%=(facultyDto.getName() == null ? "" : facultyDto.getName())%></span></label>
+                    <label>Faculty address:<span class="spanName"><%=facultyDto.getAddress() == null ? "" : facultyDto.getAddress()%></span></label>
+                </div>
                 <form action="/faculty" method="post">
                     <div class="wrapper">
                         <label>Name of faculty</label> <input type="text" name="name"
-                                                              value=<%=facultyDto == null ? "" : facultyDto.getName()%>>
+                                                              value=<%=facultyDto.getName() == null ? "" : facultyDto.getName()%>>
                     </div>
                     <div class="wrapper">
                         <label>Address</label> <input type="text" name="address"
-                                                      value=<%=facultyDto == null ? "" : facultyDto.getAddress()%>>
+                                                      value=<%=facultyDto.getAddress() == null ? "" : facultyDto.getAddress()%>>
                     </div>
                     <input type="hidden" name="hiddenId"
-                           value=<%=facultyDto == null ? "" : facultyDto.getId()%>>
+                           value=<%=facultyDto.getId() == null ? "" : facultyDto.getId()%>>
                     <button type="submit">Submit</button>
                 </form>
             </div>

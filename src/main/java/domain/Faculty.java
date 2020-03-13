@@ -7,7 +7,8 @@ import java.util.Set;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Faculty.getAll",query = "SELECT f FROM Faculty f")
+        @NamedQuery(name = "Faculty.getAll",query = "SELECT f FROM Faculty f"),
+        @NamedQuery(name = "Faculty.getById", query = "SELECT f from  Faculty f where f.id_faculty = :id")
 })
 public class Faculty implements Serializable {
     @Id

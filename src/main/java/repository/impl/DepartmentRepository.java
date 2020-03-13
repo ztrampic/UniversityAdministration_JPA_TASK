@@ -12,6 +12,7 @@ public class DepartmentRepository implements Repository<Department> {
     public Department saveOrUpdate(Department entity) {
         EntityManager entityManager = MyProvider.getInstance().getManager();
         entityManager.getTransaction().begin();
+
         Department department = entityManager.merge(entity);
         entityManager.getTransaction().commit();
         entityManager.close();
@@ -50,6 +51,11 @@ public class DepartmentRepository implements Repository<Department> {
 
     @Override
     public Department findByName(Department entity) {
-        return null;
+        EntityManager entityManager = MyProvider.getInstance().getManager();
+        entityManager.getTransaction().begin();
+        Department foundDepartment = entityManager.createNamedQuery("Department.findByName", Department.class).setParameter("name", entity.getName()).getSingleResult();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return foundDepartment;
     }
 }

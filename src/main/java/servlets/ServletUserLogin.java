@@ -1,12 +1,13 @@
 package servlets;
 
-import controller.ControllerFacade;
+import controller.facade.ControllerFacade;
 import dto.DepartmentDto;
 import dto.FacultyDto;
 import dto.UserCredentials;
 import dto.UserDtoResponse;
 import enums.Messages;
 import enums.RoleName;
+import repository.MyProvider;
 import view.ViewConstants;
 import view.ViewResolver;
 import javax.servlet.ServletException;
@@ -24,12 +25,25 @@ public class ServletUserLogin extends HttpServlet {
     public ServletUserLogin() {
         viewResolver = new ViewResolver();
     }
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getSession().getAttribute("user") == null) {
+            request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.LOGIN)).forward(request, response);
+        }
+        request.getSession().removeAttribute("user");
+        request.getSession().removeAttribute("faculty");
+        request.getSession().removeAttribute("message");
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+        request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.LOGIN)).forward(request, response);
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserCredentials credentials = new UserCredentials(request.getParameter("username"), request.getParameter("password"));
         UserDtoResponse userDtoResponse = ControllerFacade.getInstance().getAuthController().login(credentials);
         if (userDtoResponse == null) {
-            request.setAttribute("message", Messages.BAD_CREDENTIALS.toString());
+            request.setAttribute("message", Messages.BAD_CREDENTIALS.getMessage());
             request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.LOGIN)).forward(request, response);
         } else if (userDtoResponse.getRoleNames().stream().anyMatch(role -> role.toString().equals(RoleName.PROFESOR.toString()))) {
             request.getSession().setAttribute("user", userDtoResponse);
@@ -44,22 +58,12 @@ public class ServletUserLogin extends HttpServlet {
     }
 
     private void prepareAdminPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        FacultyDto facultyDtoTEST = (FacultyDto) request.getSession().getAttribute("faculty");
         FacultyDto facultyDto = ControllerFacade.getInstance().getAdminController().getFaculty();
-        List<DepartmentDto> departmentDtos = ControllerFacade.getInstance().getAdminController().getDepartmens();
-        request.getSession().setAttribute("departments", departmentDtos);
+//        List<DepartmentDto> departmentDtos = ControllerFacade.getInstance().getAdminController().getDepartmens();
+//        request.getSession().setAttribute("departments", departmentDtos);
         request.getSession().setAttribute("faculty", facultyDto);
         request.getRequestDispatcher(request.getContextPath() +  viewResolver.getPage(ViewConstants.ADMIN)).forward(request, response);
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getSession().getAttribute("user") == null) {
-            request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.LOGIN)).forward(request, response);
-        }
-        request.getSession().removeAttribute("user");
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        response.setHeader("Pragma", "no-cache");
-        response.setDateHeader("Expires", 0);
-        request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.LOGIN)).forward(request, response);
-    }
 }

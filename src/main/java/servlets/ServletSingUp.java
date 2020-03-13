@@ -1,6 +1,6 @@
 package servlets;
 
-import controller.ControllerFacade;
+import controller.facade.ControllerFacade;
 import dto.StudentDtoRequest;
 import dto.UserDetailsDto;
 import enums.Messages;
@@ -26,10 +26,11 @@ public class ServletSingUp extends HttpServlet {
         if(request.getParameter("password").equals(request.getParameter("confirmPassword"))){
             StudentDtoRequest studentDtoRequest = createStudentDto(request);
             ControllerFacade.getInstance().getAuthController().registrate(studentDtoRequest);
-            request.setAttribute("message", Messages.SING_UP_SUCCESS.toString());
+            ControllerFacade.getInstance().getAuthController().registrate(studentDtoRequest);
+            request.setAttribute("message", Messages.SING_UP_SUCCESS.getMessage());
             request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.LOGIN)).forward(request, response);
         }else {
-            request.setAttribute("message", Messages.PASSWORDS_NOT_MATCH.toString());
+            request.setAttribute("message", Messages.PASSWORDS_NOT_MATCH.getMessage());
             request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.SING_UP)).forward(request, response);
         }
     }

@@ -37,7 +37,12 @@ public class FacultyRepository implements Repository<Faculty> {
 
     @Override
     public Faculty getById(Long id) {
-        return null;
+        EntityManager entityManager = MyProvider.getInstance().getManager();
+        entityManager.getTransaction().begin();
+        Faculty faculty = entityManager.createNamedQuery("Faculty.getById", Faculty.class).setParameter("id", id).getSingleResult();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return faculty;
     }
 
     @Override

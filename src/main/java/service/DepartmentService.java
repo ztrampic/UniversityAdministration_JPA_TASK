@@ -7,7 +7,7 @@ import java.util.List;
 public interface DepartmentService {
     List<Department> getAllDepartmens();
 
-    Department saveOrUpdate(Department department);
+    Department saveOrUpdate(Department department) throws Exception;
 
     Department findById(long id);
 

@@ -1,12 +1,10 @@
 package servlets;
 
-import controller.ControllerFacade;
-import domain.Faculty;
+import controller.facade.ControllerFacade;
 import dto.FacultyDto;
 import enums.Messages;
 import view.ViewConstants;
 import view.ViewResolver;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,11 +20,22 @@ public class ServletFacultyInfo extends HttpServlet {
         viewResolver = new ViewResolver();
     }
 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        FacultyDto facultyDto = ControllerFacade.getInstance().getAdminController().getFaculty();
+        if (facultyDto != null) {
+            request.setAttribute("faculty", facultyDto);
+            request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.ADMIN)).forward(request, response);
+        }else {
+            somethingWentWrong(request,response);
+        }
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         FacultyDto facultyDto = createDto(request);
         if (facultyDto != null) {
-            ControllerFacade.getInstance().getAdminController().insertNewFaculty(facultyDto);
-            request.setAttribute("message", Messages.SUCCESS_FACULTY_INSERT.toString());
+            FacultyDto newFacultyDto = ControllerFacade.getInstance().getAdminController().insertNewFaculty(facultyDto);
+            request.getSession().setAttribute("faculty", newFacultyDto);
+            request.setAttribute("message", Messages.SUCCESS_FACULTY_INSERT.getMessage());
             request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.ADMIN)).forward(request, response);
         } else {
            somethingWentWrong(request,response);
@@ -51,18 +60,8 @@ public class ServletFacultyInfo extends HttpServlet {
 
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        FacultyDto facultyDto = ControllerFacade.getInstance().getAdminController().getFaculty();
-        if (facultyDto != null) {
-            request.setAttribute("faculty", facultyDto);
-            request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.ADMIN)).forward(request, response);
-        }else {
-            somethingWentWrong(request,response);
-        }
-    }
-
     private void somethingWentWrong(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("message", Messages.SOMETHING_WRONG.toString());
+        request.setAttribute("message", Messages.SOMETHING_WRONG.getMessage());
         request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.ADMIN)).forward(request, response);
     }
 }

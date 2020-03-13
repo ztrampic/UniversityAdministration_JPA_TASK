@@ -9,7 +9,7 @@
 .wrapper {
 	display: flex;
 	flex-direction: column;
-	max-width: 20%;
+	max-width: 30%;
 	margin-bottom: 1rem;
 }
 
