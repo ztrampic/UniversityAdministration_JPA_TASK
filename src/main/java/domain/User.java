@@ -1,5 +1,7 @@
 package domain;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -9,12 +11,14 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name = "User.getAll",query = "SELECT u FROM User u"),
         @NamedQuery(name = "User.getById", query = "SELECT u FROM User u WHERE u.id_user = :UserId"),
-        @NamedQuery(name = "User.checkCredentails",query = "SELECT u from User u where u.password = :Password AND u.userName= :Username")
+        @NamedQuery(name = "User.checkCredentails",query = "SELECT u from User u where u.password = :Password AND u.userName= :Username"),
+        @NamedQuery(name = "User.getByName", query = "SELECT u FROM User u WHERE u.userName = :name"),
 })
 public class User implements Serializable {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_user;
+    @NotNull
+    @Column(unique=true)
     private String userName;
     private String password;
     @OneToOne(fetch = FetchType.LAZY)

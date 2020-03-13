@@ -10,11 +10,11 @@ import java.util.Date;
 
 public class JpaMain {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         System.out.println("TEST");
         JpaMain main = new JpaMain();
 //        main.insertFaculty();
-           //main.insertNewUser();
+//           main.insertNewUser();
         //main.getAllUsers();
         //main.findUserById(2L);
         //main.deleteUser(1L);
@@ -32,17 +32,17 @@ public class JpaMain {
 //        AuthController.getInstance().getAllUsers();
 //    }
 
-    private void insertNewUser() {
+    private void insertNewUser() throws Exception {
         Professor professor = new Professor();
-        professor.setLastName("Peric");
-        professor.setFirstName("Pera");
+        professor.setLastName("zare");
+        professor.setFirstName("zare");
         professor.setTitle(Title.RESEARCHERS);
         professor.setWorkingStarted(new Date());
         Role role = new Role();
-        role.setRoleName(RoleName.PROFESOR);
+        role.setRoleName(RoleName.ADMIN);
         User user = new User();
-        user.setPassword("Pera");
-        user.setUserName("pera");
+        user.setPassword("zare");
+        user.setUserName("zare");
         user.addRole(role);
         user.setUserDetails(professor);
         UserService userService = new UserServiceImpl();

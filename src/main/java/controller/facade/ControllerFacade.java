@@ -14,7 +14,7 @@ public class ControllerFacade{
     private ControllerFacade() {
     }
     /**
-     *---Double check singleton
+     *---Double check singleton---
      */
     public static ControllerFacade getInstance() {
         ControllerFacade facade = instance;

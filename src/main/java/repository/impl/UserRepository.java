@@ -1,5 +1,6 @@
 package repository.impl;
 
+import domain.Department;
 import domain.User;
 import repository.MyProvider;
 import repository.Repository;
@@ -54,6 +55,11 @@ public class UserRepository implements Repository<User> {
 
     @Override
     public User findByName(User entity) {
-        return null;
+        EntityManager entityManager = MyProvider.getInstance().getManager();
+        entityManager.getTransaction().begin();
+        User foundUser = entityManager.createNamedQuery("User.getByName", User.class).setParameter("name", entity.getUserName()).getSingleResult();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return foundUser;
     }
 }

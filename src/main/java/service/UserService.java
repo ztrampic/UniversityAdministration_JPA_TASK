@@ -6,7 +6,7 @@ import dto.UserCredentials;
 import java.util.List;
 
 public interface UserService {
-    User insertNewUser(User user);
+    User insertNewUser(User user) throws Exception;
 
     List<User> getAll();
 

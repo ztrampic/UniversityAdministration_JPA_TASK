@@ -13,7 +13,7 @@
 </head>
 <body>
 <jsp:include page="./checkUser.jsp"/>
-<form action="/login" method="get">
+<form class="logout" action="/login" method="get">
     <input type="submit" value="Logout">
 </form>
 <%
@@ -21,10 +21,7 @@
     Set<DepartmentDto> departmentDtos = facultyDto.getDepartmentDtoSet();
 %>
 <div class="container">
-    <h2>Dynamic Tabs</h2>
-    <p>To make the tabs toggleable, add the data-toggle="tab" attribute to each link. Then add a .tab-pane class with a
-        unique ID for every tab and wrap them inside a div element with class .tab-content.</p>
-
+    <h2>Admin Panel</h2>
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
         <li><a data-toggle="tab" href="#menu1">Departments</a></li>
@@ -101,16 +98,14 @@
                 </div>
                 <form action="/faculty" method="post">
                     <div class="wrapper">
-                        <label>Name of faculty</label> <input type="text" name="name"
-                                                              value=<%=facultyDto.getName() == null ? "" : facultyDto.getName()%>>
+                        <label>Name of faculty</label> <input type="text" name="name">
                     </div>
                     <div class="wrapper">
-                        <label>Address</label> <input type="text" name="address"
-                                                      value=<%=facultyDto.getAddress() == null ? "" : facultyDto.getAddress()%>>
+                        <label>Address</label> <input type="text" name="address">
                     </div>
                     <input type="hidden" name="hiddenId"
                            value=<%=facultyDto.getId() == null ? "" : facultyDto.getId()%>>
-                    <button type="submit">Submit</button>
+                    <button type="submit">Update</button>
                 </form>
             </div>
         </div>

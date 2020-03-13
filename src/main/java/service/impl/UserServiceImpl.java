@@ -3,6 +3,7 @@ package service.impl;
 import domain.Role;
 import domain.User;
 import dto.UserCredentials;
+import enums.Messages;
 import repository.Repository;
 import repository.impl.AuthRepository;
 import repository.impl.RoleRepository;
@@ -23,12 +24,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User insertNewUser(User user) {
+    public User insertNewUser(User user) throws Exception {
         Role role = roleRepository.findByName(user.getRoleSet().stream().findFirst().get());
         user.getRoleSet().clear();
         user.addRole(role);
-        User newUser = userRepository.saveOrUpdate(user);
-        return newUser;
+        try {
+            User newUser = userRepository.saveOrUpdate(user);
+            return newUser;
+        }catch (Exception e){
+            throw new Exception(Messages.USERNAME_ALREADY_EXIST.getMessage());
+        }
     }
 
     @Override

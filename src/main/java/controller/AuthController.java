@@ -39,7 +39,7 @@ public class AuthController {
         return userDtoResponse;
     }
 
-    public void registrate(StudentDtoRequest studentDtoRequest) {
+    public void registrate(StudentDtoRequest studentDtoRequest) throws Exception {
         User user = userConverter.convertToUser(studentDtoRequest);
         User newUser = userService.insertNewUser(user);
     }

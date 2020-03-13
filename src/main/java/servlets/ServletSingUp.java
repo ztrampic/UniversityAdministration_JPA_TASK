@@ -25,10 +25,14 @@ public class ServletSingUp extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(request.getParameter("password").equals(request.getParameter("confirmPassword"))){
             StudentDtoRequest studentDtoRequest = createStudentDto(request);
-            ControllerFacade.getInstance().getAuthController().registrate(studentDtoRequest);
-            ControllerFacade.getInstance().getAuthController().registrate(studentDtoRequest);
-            request.setAttribute("message", Messages.SING_UP_SUCCESS.getMessage());
-            request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.LOGIN)).forward(request, response);
+            try {
+                ControllerFacade.getInstance().getAuthController().registrate(studentDtoRequest);
+                request.setAttribute("message", Messages.SING_UP_SUCCESS.getMessage());
+                request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.LOGIN)).forward(request, response);
+            } catch (Exception e) {
+                request.setAttribute("message", e.getMessage());
+                request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.SING_UP)).forward(request, response);
+            }
         }else {
             request.setAttribute("message", Messages.PASSWORDS_NOT_MATCH.getMessage());
             request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.SING_UP)).forward(request, response);

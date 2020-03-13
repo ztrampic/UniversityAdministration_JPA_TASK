@@ -61,7 +61,7 @@ public class ServletFacultyInfo extends HttpServlet {
     }
 
     private void somethingWentWrong(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("message", Messages.SOMETHING_WRONG.getMessage());
+        request.setAttribute("message", Messages.FILL_ALL_FIELDS.getMessage());
         request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.ADMIN)).forward(request, response);
     }
 }

@@ -6,6 +6,7 @@
 </head>
 <body>
 <div class="container">
+    <a href="/login.jsp" class = "inputRound">Login form</a>
     <label class="label">Registrate Page</label>
     <br>
     <p class="pass">${message}</p>
