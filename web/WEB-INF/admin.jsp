@@ -81,9 +81,9 @@
             </div>
         </div>
         <div id="menu2" class="tab-pane fade">
-            <h3>Menu 2</h3>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
-                rem aperiam.</p>
+            <jsp:include page="adminProfessor.jsp">
+                <jsp:param value="<%=facultyDto%>" name="facultyDto"/>
+            </jsp:include>
         </div>
         <div id="menu3" class="tab-pane fade">
             <h3>Menu 3</h3>
