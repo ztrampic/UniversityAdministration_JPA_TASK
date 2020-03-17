@@ -45,4 +45,15 @@ public class UserDetailsConverterImpl implements UserDetailsConverter {
         return student;
     }
 
+    @Override
+    public UserDetails convertToProfessorEntity(UserDetailsDto userDetailsDto) {
+        Professor professor = new Professor();
+        professor.setFirstName(userDetailsDto.getFirstName());
+        professor.setLastName(userDetailsDto.getLastName());
+        professor.setWorkingStarted(helperDto.formatStringToDate(userDetailsDto.getWorkingStarted()));
+        professor.setTitle(helperDto.setProfessorTitle(userDetailsDto.getTitle().toString()));
+        professor.setDepartment(departmentConverter.convertToEntity(userDetailsDto.getDepartmentDto()));
+        return professor;
+    }
+
 }

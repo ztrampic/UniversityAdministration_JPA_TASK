@@ -1,6 +1,8 @@
 package controller;
 
+import domain.Professor;
 import domain.User;
+import dto.ProfessorDtoRequest;
 import dto.StudentDtoRequest;
 import dto.UserCredentials;
 import dto.UserDtoResponse;
@@ -42,6 +44,13 @@ public class AuthController {
     public void registrate(StudentDtoRequest studentDtoRequest) throws Exception {
         User user = userConverter.convertToUser(studentDtoRequest);
         User newUser = userService.insertNewUser(user);
+    }
+
+    public ProfessorDtoRequest registrateProfessor(ProfessorDtoRequest professorDtoRequest) throws Exception {
+        User user = userConverter.convertToUserProfessor(professorDtoRequest);
+        User newUser = userService.insertNewUser(user);
+        ProfessorDtoRequest newProfessorDto = new ProfessorDtoRequest();
+        return newProfessorDto;
     }
 }
 

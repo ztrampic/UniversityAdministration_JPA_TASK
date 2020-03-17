@@ -8,8 +8,10 @@ public enum Messages {
     SUCCESS_FACULTY_INSERT ("Success updating Faculty info."),
     FILL_ALL_FIELDS ("Fill all required fields."),
     SOMETHING_WRONG("Something went wrong."),
+    SUCCESS_GET_ALL_PROFESSORS("Success."),
     SUCCESS_REMOVE_DEPARTMENT ("Success deleting department."),
-    DEPARTMENT_ALREADY_EXIST ("Department with that name alrady exist."),
+    SUCCESS_ADD_PROFESSOR ("Success insert new Account for professor."),
+    DEPARTMENT_ALREADY_EXIST ("Department with that name already exist."),
     SUCCESS_ADD_DEPARTMENT ("Success adding new Department.");
     private final String message;
 

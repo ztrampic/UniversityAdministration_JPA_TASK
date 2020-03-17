@@ -12,7 +12,6 @@ public class DepartmentRepository implements Repository<Department> {
     public Department saveOrUpdate(Department entity) {
         EntityManager entityManager = MyProvider.getInstance().getManager();
         entityManager.getTransaction().begin();
-
         Department department = entityManager.merge(entity);
         entityManager.getTransaction().commit();
         entityManager.close();

@@ -54,6 +54,11 @@ public class DepartmentConverterImpl implements DepartmentConverter {
     @Override
     public Department convertToEntity(DepartmentDto departmentDto) {
         Department department = new Department();
+        if(departmentDto.getId() == null) {
+            department.setId_department(null);
+        }else {
+            department.setId_department(departmentDto.getId());
+        }
         department.setName(departmentDto.getName());
         return department;
     }

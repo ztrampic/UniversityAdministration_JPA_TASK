@@ -7,4 +7,6 @@ public interface UserDetailsConverter {
     UserDetailsDto convertToDto(UserDetails userDetails);
 
     UserDetails convertToStudentEntity(UserDetailsDto userDetailsDto);
+
+    UserDetails convertToProfessorEntity(UserDetailsDto userDetailsDto);
 }

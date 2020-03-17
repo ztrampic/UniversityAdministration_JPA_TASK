@@ -2,14 +2,19 @@ package controller;
 
 import domain.Department;
 import domain.Faculty;
+import domain.Professor;
 import dto.DepartmentDto;
 import dto.FacultyDto;
+import dto.ProfessorDtoRequest;
+import dto.ProfessorDtoResponse;
 import service.DepartmentService;
 import service.FacultyService;
 import service.converter.DepartmentConverter;
 import service.converter.FacultyConverter;
+import service.converter.UserConverter;
 import service.converter.impl.DepartmentConverterImpl;
 import service.converter.impl.FacultyConverterImpl;
+import service.converter.impl.UserConverterImpl;
 import service.impl.DepartmentServiceImpl;
 import service.impl.FacultyServiceImpl;
 
@@ -22,12 +27,14 @@ public class AdminController {
     private final FacultyConverter facultyConverter;
     private final DepartmentService departmentService;
     private final DepartmentConverter departmentConverter;
+    private final UserConverter userConverter;
 
     public AdminController() {
         facultyService = new FacultyServiceImpl();
         facultyConverter = new FacultyConverterImpl();
         departmentService = new DepartmentServiceImpl();
         departmentConverter = new DepartmentConverterImpl();
+        userConverter = new UserConverterImpl();
     }
 
     public FacultyDto insertNewFaculty(FacultyDto facultyDto) {
@@ -66,5 +73,12 @@ public class AdminController {
         if(foundDepartment != null){
             departmentService.delete(foundDepartment);
         }
+    }
+
+    public Set<ProfessorDtoResponse> getProfessorsForIdDepartment(Long idDepartment) {
+        Department department = departmentService.findById(idDepartment);
+        Set<Professor> professors = department.getProfessorSet();
+        Set<ProfessorDtoResponse> professorDtoResponse = userConverter.convertSetToSetProfessorDto(professors);
+        return professorDtoResponse;
     }
 }

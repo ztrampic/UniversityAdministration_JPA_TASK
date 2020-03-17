@@ -1,6 +1,6 @@
 package dto;
 
-public class ProfessorDto {
+public class ProfessorDtoRequest {
     private Long id;
     private String userName;
     private String password;

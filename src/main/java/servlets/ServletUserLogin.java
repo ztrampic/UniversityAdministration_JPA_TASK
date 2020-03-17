@@ -1,13 +1,12 @@
 package servlets;
 
 import controller.facade.ControllerFacade;
-import dto.DepartmentDto;
 import dto.FacultyDto;
+import dto.ProfessorDtoResponse;
 import dto.UserCredentials;
 import dto.UserDtoResponse;
 import enums.Messages;
 import enums.RoleName;
-import repository.MyProvider;
 import view.ViewConstants;
 import view.ViewResolver;
 import javax.servlet.ServletException;
@@ -16,7 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @WebServlet(name = "ServletUserLogin", urlPatterns = "/login")
 public class ServletUserLogin extends HttpServlet {
@@ -30,6 +30,7 @@ public class ServletUserLogin extends HttpServlet {
         if (request.getSession().getAttribute("user") == null) {
             request.getRequestDispatcher(request.getContextPath() + viewResolver.getPage(ViewConstants.LOGIN)).forward(request, response);
         }
+        request.getSession().removeAttribute("professors");
         request.getSession().removeAttribute("user");
         request.getSession().removeAttribute("faculty");
         request.getSession().removeAttribute("message");
@@ -60,8 +61,8 @@ public class ServletUserLogin extends HttpServlet {
     private void prepareAdminPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         FacultyDto facultyDtoTEST = (FacultyDto) request.getSession().getAttribute("faculty");
         FacultyDto facultyDto = ControllerFacade.getInstance().getAdminController().getFaculty();
-//        List<DepartmentDto> departmentDtos = ControllerFacade.getInstance().getAdminController().getDepartmens();
-//        request.getSession().setAttribute("departments", departmentDtos);
+        Set< ProfessorDtoResponse > professors = new HashSet<>(); //temp
+        request.getSession().setAttribute("professors",professors);
         request.getSession().setAttribute("faculty", facultyDto);
         request.getRequestDispatcher(request.getContextPath() +  viewResolver.getPage(ViewConstants.ADMIN)).forward(request, response);
     }
